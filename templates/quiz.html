@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'quiz.css' %}">
+</head>
+<body>
+    <div>
+        <img id="flying-image" src="{% static 'm.jpg/fly2.gif' %}" alt="Flying GIF">
+    </div>
+    <!-- <h2 class="quiz-title">General Knowledge Quiz</h2> -->
+     <div class="img">
+        <img src="{% static 'm.jpg/kungfu_quiz.jpeg' %}">
+     </div>
+    <div class="quiz-container">
+        <div id="quiz" class="quiz-box">
+            <div class="question">
+                <h3 id="question-text">Loading question...</h3>
+            </div>
+            <div class="options">
+                <div class="quiz-options">
+                <button class="next-btn" onclick="checkAnswer(0)" id="option0"></button>                   
+                </div>
+                <div class="quiz-options">
+                <button class="next-btn" onclick="checkAnswer(1)" id="option1"></button>
+                </div>
+                <div class="quiz-options">
+                <button class="next-btn" onclick="checkAnswer(2)" id="option2"></button>
+                </div>
+                <div class="quiz-options">
+                <button class="next-btn" onclick="checkAnswer(3)" id="option3"></button>
+                </div>
+            </div>
+        </div>
+        <p id="score"></p>
+    </div>
+    <script>
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                correct: 2
+            },
+            {
+                question: "Who is the CEO of Tesla?",
+                options: ["Bill Gates", "Elon Musk", "Jeff Bezos", "Mark Zuckerberg"],
+                correct: 1
+            },
+            {
+                question: "Which company created the iPhone?",
+                options: ["Apple", "Google", "Microsoft", "Samsung"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            const currentQuiz = quizData[currentQuestionIndex];
+            document.getElementById('question-text').textContent = currentQuiz.question;
+            document.getElementById('option0').textContent = currentQuiz.options[0];
+            document.getElementById('option1').textContent = currentQuiz.options[1];
+            document.getElementById('option2').textContent = currentQuiz.options[2];
+            document.getElementById('option3').textContent = currentQuiz.options[3];
+        }
+
+        function checkAnswer(selectedOption) {
+            const correctOption = quizData[currentQuestionIndex].correct;
+            if (selectedOption === correctOption) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuiz();
+            } else {
+                document.getElementById('quiz').style.display = 'none';
+                document.querySelector("img").src="{% static 'm.jpg/download.gif' %}";
+                document.getElementById('score').textContent = `Your score: ${score} / ${quizData.length}`;
+            }
+        }
+
+
+
+        window.onload = loadQuiz;
+
+    </script>
+</body>
+</html>

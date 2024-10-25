@@ -1,0 +1,73 @@
+* {
+    background-color: rgb(255, 255, 255);
+
+}
+
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    line-height: 1.6;
+    margin: 0;
+    margin-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    background-color: #ffffff;
+}
+
+header {
+  color: #000000;
+  padding:20px;
+  text-align: center;
+  background-size: cover; /* Ensures the image covers the entire header */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; 
+}
+
+h1 {
+    background-color: transparent;
+    font-size: 60px;
+    padding-right:150px;
+    color: #000000;
+    font-style: oblique;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h2 {
+    font-size: 35px;
+    color: #000000;
+    margin: 0;
+    font-style: italic;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-decoration: underline;
+}
+
+h4 {
+    font-size: 40px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+h3{
+    font-size:30px;
+    color:#000000;
+}
+
+p{
+    font-size: 20px;
+    color:#000000;
+}
+
+.flex-container {
+    display: flex;
+    width: 1200px;
+    margin: 20px auto; /* Center the container with margin */
+}
+
+.flex-item {
+    flex: 1; /* Equal ratio for both sides */
+    padding: 20px;
+}
+
+.flex-item img {
+    width: 80%; /* Make image responsive */
+    height:80%; /* Maintain aspect ratio */
+}

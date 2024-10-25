@@ -1,0 +1,80 @@
+* {
+    background-color: rgb(255, 255, 255);
+}
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    line-height: 1.6;
+    margin: 0;
+    padding-left: 100px;
+    padding-right: 100px;
+    background-color: #ffffff;
+}
+header {
+  color: #000000;
+  padding:20px;
+  text-align: center;
+  background-size: cover; /* Ensures the image covers the entire header */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; 
+}
+
+h1 {
+  background-color: transparent;
+    font-size: 60px;
+    color: #000000;
+    font-style: oblique;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+h2 {
+    font-size: 35px;
+}
+h3 {
+    font-size: 30px;
+    text-decoration: underline;
+}
+h4 {
+    font-size: 25px;
+}
+li {
+    font-size: 20px;
+}
+p {
+    font-size: 20px;
+}
+.tagline{
+  background-color: transparent;
+  font-size: 20px;
+}
+
+.music-section {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.music-image {
+    flex: 1;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.music-image img {
+    width: 80%;
+    border-radius: 50%; 
+}
+
+.music-text {
+    flex: 1;
+}
+
+.music-text h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.music-text p {
+    font-size: 20px; 
+    line-height: 1.6;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+}
