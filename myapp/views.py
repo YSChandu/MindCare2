@@ -6,21 +6,38 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.db import connection
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import openai
-
-from django.contrib import auth
-from django.contrib.auth.models import User
-from .models import Chat
-
 from django.utils import timezone
+import json
 
 
 def quiz(request):
-    return render(request,'quiz.html')
+    # Fetch all questions and their associated options and diagnoses
+    questions = Question.objects.prefetch_related('options__diagnosis')  # Prefetch related options and diagnoses
+    
+    quiz_data = []
+    
+    for question in questions:
+        options = []
+        for option in question.options.all():
+            # Collecting option text and its corresponding diagnosis
+            options.append({
+                'text': option.text,
+                'diagnosis': option.diagnosis.name if option.diagnosis else None  # Safely getting diagnosis name
+            })
+
+        quiz_data.append({
+            'question': question.text,
+            'options': options,
+        })
+        
+    context = {
+        'quiz_data': json.dumps(quiz_data),  
+    }
+    
+    return render(request, 'quiz.html', context)
+
 
 
 

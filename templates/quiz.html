@@ -4,91 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Quiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Mental Health Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Lato:wght@0;300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'quiz.css' %}">
 </head>
 <body>
     <div>
         <img id="flying-image" src="{% static 'm.jpg/fly2.gif' %}" alt="Flying GIF">
     </div>
-    <!-- <h2 class="quiz-title">General Knowledge Quiz</h2> -->
-     <div class="img">
-        <img src="{% static 'm.jpg/kungfu_quiz.jpeg' %}">
-     </div>
-    <div class="quiz-container">
+
+    <div>
+        <img id="img" src="{% static 'm.jpg/kungfu_quiz.jpeg' %}" alt="Quiz Image">
+    </div>
+
+    <div id="start-page" class="quiz-container">
+        <h2 class="quiz-title">Welcome to the Mental Health Quiz</h2>
+        <p>This quiz is designed to help you reflect on various aspects of mental well-being. Answer honestly for the best results, and remember that this quiz is a self-reflective tool, not a diagnostic test.</p>
+        <p>Click the Start button below to begin.</p>
+        <button id="start-btn" class="next-btn" onclick="startQuiz();">Start</button>
+    </div>
+
+    <div id="quizplace" class="quiz-container" style="display: none;">
         <div id="quiz" class="quiz-box">
             <div class="question">
                 <h3 id="question-text">Loading question...</h3>
             </div>
-            <div class="options">
-                <div class="quiz-options">
-                <button class="next-btn" onclick="checkAnswer(0)" id="option0"></button>                   
-                </div>
-                <div class="quiz-options">
-                <button class="next-btn" onclick="checkAnswer(1)" id="option1"></button>
-                </div>
-                <div class="quiz-options">
-                <button class="next-btn" onclick="checkAnswer(2)" id="option2"></button>
-                </div>
-                <div class="quiz-options">
-                <button class="next-btn" onclick="checkAnswer(3)" id="option3"></button>
-                </div>
+            <div id="options-container" class="options">
             </div>
         </div>
-        <p id="score"></p>
+        <p id="diagnoses-list"></p> 
     </div>
     <script>
-        const quizData = [
-            {
-                question: "What is the capital of France?",
-                options: ["Berlin", "Madrid", "Paris", "Rome"],
-                correct: 2
-            },
-            {
-                question: "Who is the CEO of Tesla?",
-                options: ["Bill Gates", "Elon Musk", "Jeff Bezos", "Mark Zuckerberg"],
-                correct: 1
-            },
-            {
-                question: "Which company created the iPhone?",
-                options: ["Apple", "Google", "Microsoft", "Samsung"],
-                correct: 0
-            }
-        ];
+
+        const quizData = JSON.parse(`{{ quiz_data | safe }}`);
 
         let currentQuestionIndex = 0;
-        let score = 0;
+        let selectedDiagnoses = [];  // To keep track of selected diagnoses
 
         function loadQuiz() {
+            // Ensure we have questions to display
+            if (quizData.length === 0) {
+                document.getElementById('question-text').textContent = "No questions available.";
+                return;
+            }
+
             const currentQuiz = quizData[currentQuestionIndex];
             document.getElementById('question-text').textContent = currentQuiz.question;
-            document.getElementById('option0').textContent = currentQuiz.options[0];
-            document.getElementById('option1').textContent = currentQuiz.options[1];
-            document.getElementById('option2').textContent = currentQuiz.options[2];
-            document.getElementById('option3').textContent = currentQuiz.options[3];
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; // Clear previous options
+
+            // Create option buttons dynamically
+            currentQuiz.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'next-btn';
+                button.textContent = option.text;
+                button.onclick = () => checkAnswer(option.diagnosis); // Pass diagnosis directly
+                optionsContainer.appendChild(button);
+            });
         }
 
-        function checkAnswer(selectedOption) {
-            const correctOption = quizData[currentQuestionIndex].correct;
-            if (selectedOption === correctOption) {
-                score++;
+        function startQuiz() {
+            document.getElementById('start-page').style.display = 'none';
+            document.getElementById('quizplace').style.display = 'block';
+            loadQuiz(); // Load the first question
+        }
+
+        function checkAnswer(diagnosis) {
+            // Store diagnosis if it exists
+            if (diagnosis) {
+                selectedDiagnoses.push(diagnosis);
             }
 
-            currentQuestionIndex++;
+            currentQuestionIndex++; // Move to the next question
             if (currentQuestionIndex < quizData.length) {
-                loadQuiz();
+                loadQuiz(); // Load the next question
             } else {
-                document.getElementById('quiz').style.display = 'none';
-                document.querySelector("img").src="{% static 'm.jpg/download.gif' %}";
-                document.getElementById('score').textContent = `Your score: ${score} / ${quizData.length}`;
+                endQuiz(); // No more questions
             }
         }
 
-
-
-        window.onload = loadQuiz;
-
+        function endQuiz() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('img').src = "{% static 'm.jpg/download.gif' %}"; // Change image at the end
+            document.getElementById('diagnoses-list').textContent = `Selected Diagnoses: ${selectedDiagnoses.join(', ')}`;
+        }
     </script>
 </body>
 </html>

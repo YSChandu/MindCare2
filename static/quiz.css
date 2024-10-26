@@ -5,6 +5,7 @@
     letter-spacing: 1px;
 }
 
+
 body {
     background-color: white;
     display: flex;
@@ -48,6 +49,10 @@ body {
     border-width: 2px;
 }
 
+#quizplace{
+    display: none;
+}
+
 .quiz-title {
     font-size: 24px;
     color: balck;
@@ -68,6 +73,7 @@ body {
     padding-top: 30px;
     width: 500px;
     align-items: start;
+    justify-items: center;
     background-color:white;
 }
 .quiz-options{
