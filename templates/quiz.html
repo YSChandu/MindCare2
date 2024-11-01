@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental Health Quiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Lato:wght@0;300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'quiz.css' %}">
 </head>
 <body>
@@ -20,7 +19,7 @@
     <div id="start-page" class="quiz-container">
         <h2 class="quiz-title">Welcome to the Mental Health Quiz</h2>
         <p>This quiz is designed to help you reflect on various aspects of mental well-being. Answer honestly for the best results, and remember that this quiz is a self-reflective tool, not a diagnostic test.</p>
-        <p>Click the Start button below to begin.</p>
+        <p id="click-start">Click the Start button below to begin.</p>
         <button id="start-btn" class="next-btn" onclick="startQuiz();">Start</button>
     </div>
 
@@ -32,7 +31,9 @@
             <div id="options-container" class="options">
             </div>
         </div>
-        <p id="diagnoses-list"></p> 
+        <div id="diagnosis">
+            <p id="diagnoses-list"></p> 
+        </div>
     </div>
     <script>
 
@@ -76,7 +77,7 @@
                 selectedDiagnoses.push(diagnosis);
             }
 
-            currentQuestionIndex++; // Move to the next question
+            currentQuestionIndex=currentQuestionIndex+2; 
             if (currentQuestionIndex < quizData.length) {
                 loadQuiz(); // Load the next question
             } else {
@@ -88,6 +89,7 @@
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('img').src = "{% static 'm.jpg/download.gif' %}"; // Change image at the end
             document.getElementById('diagnoses-list').textContent = `Selected Diagnoses: ${selectedDiagnoses.join(', ')}`;
+
         }
     </script>
 </body>
