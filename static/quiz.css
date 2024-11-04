@@ -13,30 +13,6 @@ body {
     height: 100vh;
 }
 
-#flying-image {
-    position: absolute;
-    top: 0;       /* Start at the vertical center */
-    left: 0;        /* Start from the left of the screen */
-    width: 200px;   /* Set image size */
-    animation: fly 5s linear forwards;  /* Animation lasts 5 seconds */
-}
-
-@keyframes fly {
-    0% {
-        left: 0;       /* Start from the left of the screen */
-        opacity: 1;    /* Fully visible */
-    }
-    90% {
-        left: 90%;     /* Move image 70% across the screen */
-        opacity: 1;    /* Still visible */
-    }
-    100% {
-        left: 100%;    /* Move off the screen */
-        opacity: 0;    /* Fade out */
-    }
-}
-
-
 .quiz-container {
     width: 600px;
     background-color: white;
@@ -117,6 +93,7 @@ body {
     margin-top: 20px;
     background-color: black;
     border:solid;
+    padding: 10px;
     border-radius: 15px;
     border-width: 2px;
     border-color: black;
@@ -132,7 +109,13 @@ body {
     margin-top: 20px;
     letter-spacing: 2px;
 }
-
+.selected-option {
+    border:solid;
+    border-radius: 15px;
+    border-width: 2px;
+    border-color: black;
+    color: black; /* Light background for better visibility */
+}
 
 .hidden {
     display: none;

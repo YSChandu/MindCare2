@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-r&glp(tc0=7u_)fret-hrw6r4=(hv&9hmeom$43vyw6=r1*#wa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0989-175-101-105-133.ngrok-free.app']
+
 
 
 # Application definition
@@ -70,7 +71,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mentalhealth.wsgi.application'
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://0989-175-101-105-133.ngrok-free.app',  # Use HTTPS
+]
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -130,3 +133,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Add this line to your settings.py
 LOGIN_URL = '/login/'  # Ensure this matches the login path in your urls.py
+

@@ -9,34 +9,102 @@ from django.db import connection
 from django.http import JsonResponse
 import openai
 from django.utils import timezone
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Question, Option, UserResponse
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import render
+from django.http import JsonResponse
 import json
+from .models import Question
 
 
+@login_required
 def quiz(request):
-    # Fetch all questions and their associated options and diagnoses
-    questions = Question.objects.prefetch_related('options__diagnosis')  # Prefetch related options and diagnoses
+    # Fetch all questions for stage 1 and stage 2, prefetching their associated options
+    stage_1_questions = Question.objects.filter(stage=1).prefetch_related('options')
+    stage_2_questions = Question.objects.filter(stage=2).prefetch_related('options')
     
-    quiz_data = []
-    
-    for question in questions:
-        options = []
-        for option in question.options.all():
-            # Collecting option text and its corresponding diagnosis
-            options.append({
-                'text': option.text,
-                'diagnosis': option.diagnosis.name if option.diagnosis else None  # Safely getting diagnosis name
-            })
-
-        quiz_data.append({
-            'question': question.text,
-            'options': options,
-        })
-        
-    context = {
-        'quiz_data': json.dumps(quiz_data),  
+    quiz_data = {
+        'stage_1': [],
+        'stage_2': []
     }
     
+    # Organize stage 1 questions
+    for question in stage_1_questions:
+        options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
+        quiz_data['stage_1'].append({
+            'question_id': question.id,
+            'text': question.text,
+            'options': options
+        })
+
+    # Organize stage 2 questions
+    for question in stage_2_questions:
+        options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
+        quiz_data['stage_2'].append({
+            'question_id': question.id,
+            'text': question.text,
+            'options': options
+        })
+
+    
+    context = {
+        'quiz_data': json.dumps(quiz_data),
+    }
     return render(request, 'quiz.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def quiz(request):
+#     # Fetch all questions and their associated options and diagnoses
+#     questions = Question.objects.prefetch_related('options__diagnosis')  # Prefetch related options and diagnoses
+    
+#     quiz_data = []
+    
+#     for question in questions:
+#         options = []
+#         for option in question.options.all():
+#             # Collecting option text and its corresponding diagnosis
+#             options.append({
+#                 'text': option.text,
+#                 'diagnosis': option.diagnosis.name if option.diagnosis else None  # Safely getting diagnosis name
+#             })
+
+#         quiz_data.append({
+#             'question': question.text,
+#             'options': options,
+#         })
+        
+#     context = {
+#         'quiz_data': json.dumps(quiz_data),  
+#     }
+    
+#     return render(request, 'quiz.html', context)
 
 
 

@@ -8,88 +8,119 @@
     <link rel="stylesheet" href="{% static 'quiz.css' %}">
 </head>
 <body>
-    <div>
-        <img id="flying-image" src="{% static 'm.jpg/fly2.gif' %}" alt="Flying GIF">
-    </div>
+    <div class="quiz-container">
+        <h2 class="quiz-title">Mental Health Quiz</h2>
 
-    <div>
-        <img id="img" src="{% static 'm.jpg/kungfu_quiz.jpeg' %}" alt="Quiz Image">
-    </div>
+        <!-- Start Button and Initial Instruction -->
+        <div id="start-page">
+            <p>This quiz has two stages. Please answer each question honestly.</p>
+            <button id="start-btn" class="next-btn" onclick="startQuiz()">Start Quiz</button>
+            <p id="click-start">Click the start button to begin.</p>
+        </div>
 
-    <div id="start-page" class="quiz-container">
-        <h2 class="quiz-title">Welcome to the Mental Health Quiz</h2>
-        <p>This quiz is designed to help you reflect on various aspects of mental well-being. Answer honestly for the best results, and remember that this quiz is a self-reflective tool, not a diagnostic test.</p>
-        <p id="click-start">Click the Start button below to begin.</p>
-        <button id="start-btn" class="next-btn" onclick="startQuiz();">Start</button>
-    </div>
-
-    <div id="quizplace" class="quiz-container" style="display: none;">
-        <div id="quiz" class="quiz-box">
-            <div class="question">
-                <h3 id="question-text">Loading question...</h3>
-            </div>
-            <div id="options-container" class="options">
+        <!-- Quiz Questions and Options Container -->
+        <div id="quizplace" style="display: none;">
+            <div class="quiz-box">
+                <div class="question">
+                    <h3 id="question-text"></h3>
+                </div>
+                <div id="options-container" class="options">
+                    <!-- Options will be loaded here dynamically -->
+                </div>
+                <button id="next-btn" class="next-btn" onclick="submitResponse()">Next</button>
             </div>
         </div>
-        <div id="diagnosis">
-            <p id="diagnoses-list"></p> 
+
+        <!-- Completion Message -->
+        <div id="completion-message" class="hidden">
+            <h3>Thank you for completing the quiz!</h3>
+            <p>Your responses have been recorded.</p>
         </div>
     </div>
+
     <script>
-
+        // Data passed from Django view
         const quizData = JSON.parse(`{{ quiz_data | safe }}`);
-
+        let currentStage = 1;
         let currentQuestionIndex = 0;
-        let selectedDiagnoses = [];  // To keep track of selected diagnoses
-
-        function loadQuiz() {
-            // Ensure we have questions to display
-            if (quizData.length === 0) {
-                document.getElementById('question-text').textContent = "No questions available.";
-                return;
-            }
-
-            const currentQuiz = quizData[currentQuestionIndex];
-            document.getElementById('question-text').textContent = currentQuiz.question;
-
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = ''; // Clear previous options
-
-            // Create option buttons dynamically
-            currentQuiz.options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'next-btn';
-                button.textContent = option.text;
-                button.onclick = () => checkAnswer(option.diagnosis); // Pass diagnosis directly
-                optionsContainer.appendChild(button);
-            });
-        }
+        let selectedOptionId = null;
+        const responses = []; // Store question and selected option
 
         function startQuiz() {
             document.getElementById('start-page').style.display = 'none';
             document.getElementById('quizplace').style.display = 'block';
-            loadQuiz(); // Load the first question
+            loadNextQuestion();
         }
 
-        function checkAnswer(diagnosis) {
-            // Store diagnosis if it exists
-            if (diagnosis) {
-                selectedDiagnoses.push(diagnosis);
-            }
+        function loadNextQuestion() {
+            const questions = currentStage === 1 ? quizData.stage_1 : quizData.stage_2;
 
-            currentQuestionIndex=currentQuestionIndex+2; 
-            if (currentQuestionIndex < quizData.length) {
-                loadQuiz(); // Load the next question
+            if (currentQuestionIndex < questions.length) {
+                const question = questions[currentQuestionIndex];
+                displayQuestion(question);
+            } else if (currentStage === 1) {
+                currentStage = 2;
+                currentQuestionIndex = 0;
+                if (confirm("Proceed to Stage 2?")) {
+                    loadNextQuestion();
+                } else {
+                    showCompletionMessage();
+                }
             } else {
-                endQuiz(); // No more questions
+                showCompletionMessage();
             }
         }
 
-        function endQuiz() {
-            document.getElementById('quiz').style.display = 'none';
-            document.getElementById('img').src = "{% static 'm.jpg/download.gif' %}"; // Change image at the end
-            document.getElementById('diagnoses-list').textContent = `Selected Diagnoses: ${selectedDiagnoses.join(', ')}`;
+        function displayQuestion(question) {
+            document.getElementById('question-text').textContent = question.text;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; // Clear previous options
+            selectedOptionId = null; // Reset selected option
 
+            question.options.forEach(option => {
+                const optionButton = document.createElement('button');
+                optionButton.textContent = option.text;
+                optionButton.classList.add('next-btn');
+                optionButton.onclick = () => selectOption(optionButton, option.id);
+                optionsContainer.appendChild(optionButton);
+            });
+        }
+
+        function selectOption(button, optionId) {
+            // Remove the 'selected-option' class from other options
+            const options = document.querySelectorAll('.next-btn');
+            options.forEach(opt => opt.classList.remove('selected-option'));
+
+            // Add the 'selected-option' class to the chosen option
+            button.classList.add('selected-option');
+            selectedOptionId = optionId;
+        }
+
+        function submitResponse() {
+            if (!selectedOptionId) {
+                alert('Please select an option.');
+                return;
+            }
+
+            // Store the response
+            const questions = currentStage === 1 ? quizData.stage_1 : quizData.stage_2;
+            const question = questions[currentQuestionIndex];
+            responses.push({
+                question: question.text,
+                selectedOption: selectedOptionId
+            });
+
+            // Reset selectedOptionId for the next question
+            selectedOptionId = null;
+            currentQuestionIndex++;
+            loadNextQuestion();
+        }
+
+        function showCompletionMessage() {
+            document.getElementById('quizplace').style.display = 'none';
+            document.getElementById('completion-message').style.display = 'block';
+
+            console.log("Responses:", responses); // You can use this data as needed
         }
     </script>
 </body>

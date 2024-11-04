@@ -3,27 +3,90 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
 class Diagnosis(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    
+
     def __str__(self):
         return self.name
 
-
 class Question(models.Model):
-    text = models.TextField()  
+    text = models.TextField()
+    stage = models.IntegerField(default=1) # 1 for Stage 1, 2 for Stage 2
 
     def __str__(self):
-        return self.text
+        return f"Stage {self.stage} - {self.text}"
 
 class Option(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
-    text = models.CharField(max_length=255)  
+    text = models.CharField(max_length=255)
     diagnosis = models.ForeignKey(Diagnosis, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.question.text} - {self.text}"
+
+class UserResponse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.question.text} - {self.selected_option.text}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Diagnosis(models.Model):
+#     name = models.CharField(max_length=255, unique=True)
+    
+#     def __str__(self):
+#         return self.name
+
+
+# class Question(models.Model):
+#     text = models.TextField()  
+
+#     def __str__(self):
+#         return self.text
+
+# class Option(models.Model):
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
+#     text = models.CharField(max_length=255)  
+#     diagnosis = models.ForeignKey(Diagnosis, on_delete=models.SET_NULL, null=True, blank=True)
+
+#     def __str__(self):
+#         return f"{self.question.text} - {self.text}"
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
