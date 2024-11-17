@@ -37,19 +37,64 @@ h2 {
     margin: 0;
     font-style: italic;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-decoration: underline;
 }
 
 h4 {
     font-size: 40px;
     text-align: center;
-    text-decoration: underline;
 }
 
 h3{
     font-size:30px;
     color:#000000;
 }
+
+.music-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px; /* Adds spacing between image and text */
+    padding: 20px;
+}
+
+.music-image {
+    flex: 1; /* Makes the image section flexible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music-image img {
+    width: 400px; /* Ensures a fixed circular size */
+    height: 400px; /* Matches width for a square base */
+    border-radius: 30%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image fills the circle without distortion */
+}
+
+.music-text {
+    flex: 2; /* Gives more space to the text */
+    padding-left: 20px;
+}
+
+.music-text p {
+    font-size: 20px;
+    line-height: 1.8;
+    font-family: 'Cambria', cursive, sans-serif;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .music-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .music-text {
+        padding-left: 0;
+    }
+}
+
 
 p{
     font-size: 20px;

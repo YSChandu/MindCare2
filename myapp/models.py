@@ -10,30 +10,55 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
-class Option(models.Model):
-    question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
-    option_text = models.TextField(default="Default option text")
-    depression_percentage = models.IntegerField(default=0)
-    anxiety_percentage = models.IntegerField(default=0)
-    mood_disorder_percentage = models.IntegerField(default=0)
-    somatic_disorder_percentage = models.IntegerField(default=0)
-    trauma_percentage = models.IntegerField(default=0)
-    stress_precentage = models.IntegerField(default=0)
-    obsessive_compulsive_percentage=models.IntegerField(default=0)
-    psychotic_percentage =models.IntegerField(default=0)
-    dissociative_precentage = models.IntegerField(default=0)
-    neurocognitive_percentage = models.IntegerField(default=0)
-    neurodevelopmental_percentage =  models.IntegerField(default=0)
-    substance_use_percentage = models.IntegerField(default=0)
-    personality_precentage = models.IntegerField(default=0)
-    sleep_disorder_percentage = models.IntegerField(default=0)
-    self_harm_percentage = models.IntegerField(default=0)
-    eating_percentage = models.IntegerField(default=0)
-    
 
+from django.db import models
+
+class Option(models.Model):
+    question = models.ForeignKey(Question, related_name='options',on_delete=models.CASCADE)
+    anxiety_percentage = models.IntegerField(default=0)
+    depression_percentage = models.IntegerField(default=0)
+    dissociative_disorders_percentage = models.IntegerField(default=0)
+    eating_percentage = models.IntegerField(default=0)
+    mood_disorder_percentage = models.IntegerField(default=0)
+    neurocognitive_percentage = models.IntegerField(default=0)
+    neurodevelopmental_percentage = models.IntegerField(default=0)
+    obsessive_compulsive_percentage = models.IntegerField(default=0)
+    option_text = models.TextField()
+    personality_precentage = models.IntegerField(default=0)
+    psychotic_percentage = models.IntegerField(default=0)
+    self_harm_percentage = models.IntegerField(default=0)
+    sleep_disorder_percentage = models.IntegerField(default=0)
+    somatic_disorder_percentage = models.IntegerField(default=0)
+    stress_precentage = models.IntegerField(default=0)
+    substance_use_percentage = models.IntegerField(default=0)
+    trauma_percentage = models.IntegerField(default=0)
 
     def __str__(self):
         return self.option_text
+
+# class Option(models.Model):
+#     question = models.ForeignKey(Question, related_name='options',on_delete=models.CASCADE)
+#     depression_percentage = models.IntegerField(default=0)
+#     mood_disorders_percentage = models.IntegerField(default=0)
+#     anxiety_disorders_percentage = models.IntegerField(default=0)
+#     somatic_disorders_percentage = models.IntegerField(default=0)
+#     trauma_related_disorders_percentage = models.IntegerField(default=0)
+#     stress_related_disorders_percentage = models.IntegerField(default=0)
+#     obsessive_compulsive_disorders_percentage = models.IntegerField(default=0)
+#     psychotic_disorders_percentage = models.IntegerField(default=0)
+#     dissociative_disorders_percentage = models.IntegerField(default=0)
+#     neurocognitive_disorders_percentage = models.IntegerField(default=0)
+#     neurodevelopmental_disorders_percentage = models.IntegerField(default=0)
+#     substance_use_disorders_percentage = models.IntegerField(default=0)
+#     personality_disorders_percentage = models.IntegerField(default=0)
+#     sleep_wake_disorders_percentage = models.IntegerField(default=0)
+#     self_harm_percentage = models.IntegerField(default=0)
+#     eating_disorders_percentage = models.IntegerField(default=0)
+#     option_text = models.TextField()
+
+#     def __str__(self):
+#         return self.option_text
+
 
 
 

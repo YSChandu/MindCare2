@@ -1,43 +1,18 @@
+/* General Styling */
 * {
     background-color: rgb(255, 255, 255);
+    margin: 0;
+    padding: 0;
 }
+
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     line-height: 1.6;
-    margin: 0;
     padding-left: 100px;
     padding-right: 100px;
-    background-color: #ffffff;
-}
-header {
-  color: #000000;
-  padding:20px;
-  text-align: center;
-  background-image: url('movies_intro.png');
-  background-size: cover; /* Ensures the image covers the entire header */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; 
 }
 
-h1 {
-    background-color: transparent;
-    font-size: 60px;
-    color: #000000;
-    font-style: oblique;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
 
-h2 {
-    font-size: 30px ;
-    color: #000000;
-}
-
-.tagline {
-    font-style: italic;
-    background-color: transparent;
-    color:#000000;
-    font-size: 25px;
-}
 .music-section {
     display: flex;
     align-items: center;
@@ -71,117 +46,166 @@ h2 {
     font-style: italic;
 }
 
-
-p {
-    font-size: 20px;
-    color:#000000;
-}
-
-h3 {
-    font-size: 24px; /* Font size for h3 headers */
-    color: #000000; /* Slightly lighter color for h3 headers */
-    margin-top: 20px; /* Space above the h3 header */
-    margin-bottom: 10px; /* Space below the h3 header */
-}
-
-ul {
-    list-style-type: disc; /* Bullet points for unordered lists */
-    padding-left: 20px; /* Space for bullet points */
-}
-
-
-ul li {
-    font-size: 20px;
-    margin-bottom: 10px; /* Space between list items */
-}
 .flex-container {
-    display: flex; /* Enable flexbox layout */
-    gap: 20px; /* Space between items */
-    justify-content: space-around; /* Distribute items evenly */
-    flex-wrap: wrap; /* Allow wrapping if needed */
-    align-items: flex-start; /* Align items at the top */
+    display: flex; /* Enable Flexbox for the container */
+    justify-content: space-between; /* Distribute space evenly between items */
+    flex-wrap: wrap; /* Allow items to wrap onto the next line if necessary */
+    margin: 20px 0; /* Space above and below the container */
 }
 
 .video-item {
-    max-width: 300px; /* Limit the width of each item */
-    text-align: center; /* Center text within each item */
+    display: flex; /* Enable Flexbox for each video item */
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center items horizontally */
+    margin: 10px; /* Space around each video item */
+    text-align: center; /* Center text under images */
+    width: 30%; /* Adjust width for a good layout, allowing three items per row */
+    box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
 }
 
 .video-item img {
-    width: 200px; /* Set a consistent width */
-    height: 150px; /* Set a consistent height */
-    object-fit: cover; /* Ensures the image fills the area without distortion */
-    border-radius: 8px; /* Optional: Rounded corners for a polished look */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /*
+    width: 100%; /* Image takes full width of its container */
+    height: 200px; /* Fixed height for all images */
+    object-fit: cover; /* Ensure image maintains aspect ratio */
+    margin-bottom: 10px; /* Space between image and text */
+}
+
+.text-content {
+    font-size: 16px; /* Set font size for text */
 }
 
 .text-content h4 {
-    font-size: 18px;
-    margin: 10px 0;
+    font-size: 18px; /* Adjust heading size */
+    color: #000000; /* Black color for the title */
+    margin: 10px 0; /* Margin around the title */
 }
 
 .text-content p {
-    font-size: 14px;
-    color: #555;
-    margin: 10px 0;
+    font-size: 14px; /* Adjust font size for the description */
+    color: #555; /* Lighter text color */
+    margin-bottom: 10px; /* Space below the paragraph */
 }
 
 .text-content a {
-    display: inline-block;
-    margin-top: 10px;
-    color: #007BFF;
-    text-decoration: none;
-    font-weight: bold;
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make the link bold */
+    margin-top: 5px; /* Space between description and link */
 }
 
 .text-content a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Underline link on hover */
 }
 
 
-h5 {
-    font-size: 40px;
+/* Header */
+header {
+    color: #000000;
+    padding: 20px;
     text-align: center;
 }
 
-
-.movie {
-    display: flex; /* Aligns image and text side by side */
-    max-width: 1200px; /* Max width for the movie item */
-    width: 100%; /* Make the movie item take full width of its parent */
-    border: 1px solid #ccc; /* Optional: adds a border around movie items */
-    border-radius: 10px; /* Optional: rounded corners */
-    overflow: hidden; /* Ensures rounded corners clip overflow */
-    height: 100%;
+h1 {
+    font-size: 50px;
+    color: #000000;
+    font-style: oblique;
 }
 
-.movie img {
-    flex: 1; /* Allows image to take equal space */
-    height:100%;
-    width:100%;
-    object-fit: cover; /* Ensures image covers the space without distortion */
-    height: 200px; /* Set a fixed height for images */
+h2 {
+    font-size: 35px;
+    color: #000000;
+    margin: 0;
+    font-style: italic;
 }
 
-.movie-content {
-    flex: 1; /* Allows text to take equal space */
+h2:hover {
+    color: rgb(255, 149, 61);
+}
+
+h3 {
+    font-size: 30px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h3:hover {
+    color: rgb(101, 163, 255);
+}
+
+h4 {
+    font-size: 20px;
+}
+
+p {
+    font-size: 20px;
+}
+
+/* Tagline */
+.tagline {
+    font-size: 1.2em;
+    font-style: italic;
+    color: #000000;
+}
+
+/* Lists */
+.Types ul li {
+    font-style: italic;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 1.3em;
+    padding-left: 60px;
+    list-style-type: none;
+}
+
+/* Flexbox Styling for Movie Section */
+.flex-container {
+
     display: flex;
-    flex-direction: column; /* Aligns text in a column */
-    justify-content: space-between; /* Evenly spaces out content */
-    padding: 10px; /* Adds padding around text content */
+    margin-bottom: 20px;
 }
 
-.movie-content h3 {
-    margin: 0; /* Removes default margin */
+.flex-item {
+    width: 45%;
 }
 
-.movie-content a {
-    display: inline-block;
-    margin-top: 10px; /* Space above the link */
-    text-decoration: none; /* Removes underline */
-    color: blue; /* Link color */
+/* Image Styling */
+.flex-item img {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
 }
 
+/* Links */
+a {
+    font-size: 18px;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(101, 163, 255);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-item {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Footer Styles */
 .footer {
     border-radius: 15px;
     background-color: #ffffff; 

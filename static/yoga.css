@@ -1,6 +1,4 @@
-*{
-    background-color: rgb(239, 251, 251);
-}
+
 body {
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     line-height: 1.6;
@@ -8,6 +6,7 @@ body {
     padding-left: 100px;
     padding-right:100px;
 }
+
 
 header {
     color: #000000;
@@ -21,13 +20,47 @@ h1{
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+.music-section {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.music-image {
+    flex: 1;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.music-image img {
+    width: 80%;
+    border-radius: 50%; 
+}
+
+.music-text {
+    flex: 1;
+}
+
+.music-text h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.music-text p {
+    font-size: 20px; 
+    line-height: 1.6;
+    font-family:cursive;
+    font-style: italic;
+}
+
 h2 {
     font-size: 35px;
     color:#000000;
     margin: 0;
     font-style:italic;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-decoration:underline;
+    
 }
 h2:hover{
     color:rgb(255, 149, 61)
@@ -205,7 +238,7 @@ cite {
 /* Footer Styles */
 .footer {
     border-radius: 15px;
-    background-color: rgb(239, 251, 251); 
+    background-color: rgb(255, 255, 255); 
     color: #505050; 
     padding: 40px 20px;
     display: flex;
