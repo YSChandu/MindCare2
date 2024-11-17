@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r&glp(tc0=7u_)fret-hrw6r4=(hv&9hmeom$43vyw6=r1*#wa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'f307-175-101-105-133.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '506e-175-101-105-133.ngrok-free.app']
 
 
 
@@ -73,6 +73,7 @@ WSGI_APPLICATION = 'mentalhealth.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = [
       # Use HTTPS
+      'https://506e-175-101-105-133.ngrok-free.app',
 ]
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
