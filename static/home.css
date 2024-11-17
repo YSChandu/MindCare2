@@ -35,7 +35,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1500px;
+    width: 1550px;
+    margin-right: 90px;
 }
 
 
