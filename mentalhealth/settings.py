@@ -80,41 +80,41 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
-import os
+# import os
 
-if os.getenv("USE_MYSQL"):
-    DATABASES = {
-        'default': {
-                'ENGINE': 'django.db.backends.mysql',
-                'NAME': 'mindcare',  
-                'USER': 'root',        
-                'PASSWORD': 'SAIchandu@8328523705',    
-                'HOST': 'localhost',            
-                'PORT': '3306',                 
-            }
- }
+# if os.getenv("USE_MYSQL"):
+#     DATABASES = {
+#         'default': {
+#                 'ENGINE': 'django.db.backends.mysql',
+#                 'NAME': 'mindcare',  
+#                 'USER': 'root',        
+#                 'PASSWORD': 'SAIchandu@8328523705',    
+#                 'HOST': 'localhost',            
+#                 'PORT': '3306',                 
+#             }
+#  }
     
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
-
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'mindcare',  
-#         'USER': 'root',        
-#         'PASSWORD': 'SAIchandu@8328523705',    
-#         'HOST': 'localhost',            
-#         'PORT': '3306',                 
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
 #     }
-# }
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mindcare',  
+        'USER': 'root',        
+        'PASSWORD': 'SAIchandu@8328523705',    
+        'HOST': 'localhost',            
+        'PORT': '3306',                 
+    }
+}
 
 
 

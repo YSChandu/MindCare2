@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    max-width: 1200;
+    box-sizing: border-box;
+}
 
 body {
     font-family:"Lato" , sans-serif;
@@ -11,13 +16,6 @@ body {
     min-height: 100vh;
     padding-top: 0px;
     margin-top: 0px;
-}
-
-/* Basic Reset */
-* {
-    padding: 0;
-    max-width: 1200;
-    box-sizing: border-box;
 }
 
 
@@ -40,7 +38,7 @@ header {
     width: 1500px;
 }
 
-/* Logo / Website Title */
+
 .logo h1 {
     font-size: 24px;
     font-weight: bold;
@@ -141,14 +139,14 @@ header {
     align-items: center;
 }
 .homepage-image{
-    margin-left:230px;
+    margin-left:160px;
 }
 
 .hero-content{
     display: flex;
     flex-direction: column;
     margin-left: 50px;
-    margin-right:100px;
+    margin-right:50px;
     margin-bottom: 0px;
     padding-bottom: 0px;
 }
@@ -474,7 +472,8 @@ header {
 .social-icons a:hover svg {
     fill:  rgb(255, 195, 66);
 }
-/* Footer Bottom */
+
+
 .footer-bottom {
     width: 100%;
     text-align: center;
@@ -484,6 +483,6 @@ header {
 
 .footer-bottom p {
     font-size: 14px;
-    color: #505050; /* Light blue text */
+    color: #505050; 
 }
-
+ 
