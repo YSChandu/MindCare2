@@ -38,6 +38,39 @@ h2 {
     color:#000000;
     font-size: 25px;
 }
+.music-section {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.music-image {
+    flex: 1;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.music-image img {
+    width: 80%;
+    border-radius: 50%; 
+}
+
+.music-text {
+    flex: 1;
+}
+
+.music-text h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.music-text p {
+    font-size: 20px; 
+    line-height: 1.6;
+    font-family:cursive;
+    font-style: italic;
+}
+
 
 p {
     font-size: 20px;
@@ -61,43 +94,56 @@ ul li {
     font-size: 20px;
     margin-bottom: 10px; /* Space between list items */
 }
-
 .flex-container {
-    display: flex; /* Enables flexbox layout */
-    flex-direction: column; /* Stacks video items vertically */
-    gap: 20px; /* Space between each video item */
+    display: flex; /* Enable flexbox layout */
+    gap: 20px; /* Space between items */
+    justify-content: space-around; /* Distribute items evenly */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    align-items: flex-start; /* Align items at the top */
 }
 
 .video-item {
-    display: flex; /* Enables flexbox for each video-item */
-    align-items: flex-start; /* Aligns items at the start */
+    max-width: 300px; /* Limit the width of each item */
+    text-align: center; /* Center text within each item */
 }
 
-.text-content {
-    margin-left: 20px; /* Adds space between video and text */
-    flex: 1; /* Allows this div to take available space */
+.video-item img {
+    width: 200px; /* Set a consistent width */
+    height: 150px; /* Set a consistent height */
+    object-fit: cover; /* Ensures the image fills the area without distortion */
+    border-radius: 8px; /* Optional: Rounded corners for a polished look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /*
 }
+
 .text-content h4 {
-    font-size: 20px;
+    font-size: 18px;
+    margin: 10px 0;
 }
 
-iframe {
-    display:flexbox; /* Ensures iframe is treated as a block element */
-    max-width: 100%; /* Makes the video responsive */
-    height:100%; /* Maintains aspect ratio */
-    border: none; /* Removes border around the iframe */
+.text-content p {
+    font-size: 14px;
+    color: #555;
+    margin: 10px 0;
 }
+
+.text-content a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.text-content a:hover {
+    text-decoration: underline;
+}
+
+
 h5 {
     font-size: 40px;
     text-align: center;
 }
-.flex-container {
-    display: flex;
-    flex-direction: column; /* Stack movie items vertically */
-    gap: 20px; /* Space between movie items */
-    width: 100%; /* Full width */
-    align-items: center; /* Center items within the flex container */
-}
+
 
 .movie {
     display: flex; /* Aligns image and text side by side */
@@ -134,5 +180,128 @@ h5 {
     margin-top: 10px; /* Space above the link */
     text-decoration: none; /* Removes underline */
     color: blue; /* Link color */
+}
+
+.footer {
+    border-radius: 15px;
+    background-color: #ffffff; 
+    color: #505050; 
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Wrap on smaller screens */
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Footer About Section */
+.footer-about {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-about h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #505050; 
+}
+
+.footer-about p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #505050; 
+}
+
+
+.footer-links {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-links h3 {
+
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: rgb(255, 195, 66); /* Coral color for heading */
+}
+
+.footer-links ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links ul li a {
+    color: #505050; /* Light blue text */
+    text-decoration: none;
+}
+
+.footer-links ul li a:hover {
+    color: rgb(255, 195, 66); /* Coral color on hover */
+    text-decoration: underline;
+}
+
+/* Footer Contact Section */
+.footer-contact {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-contact h3 {
+
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: rgb(255, 195, 66) /* Coral color for heading */
+}
+
+.footer-contact p {
+    font-size: 16px;
+    color: #505050;
+    margin-bottom: 8px;
+}
+ .social-icons {
+    margin-top: 10px;
+}
+
+.social-icons h2{
+    margin-top: 35px;
+    color: rgb(255, 195, 66);
+}
+.social-icons a {
+    margin-top: 20px;
+    color: #505050;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.social-icons svg {
+    width: 30px;
+    height: 30px;
+    transition: fill 0.3s;
+}
+
+.social-icons a:hover svg {
+    fill:  rgb(255, 195, 66);
+}
+/* Footer Bottom */
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.footer-bottom p {
+    font-size: 14px;
+    color: #505050; /* Light blue text */
 }
 

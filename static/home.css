@@ -259,17 +259,22 @@ header {
     color: #666;
     margin-bottom: 10px;
 }
+.more-text {
+    display: none;
+    transition: all 0.3s ease;
+}
 
 .read-more-link {
+    color: #1e2e3f;
+    cursor: pointer;
     font-weight: bold;
-    color: #000;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .read-more-link:hover {
-    color: rgb(255, 195, 66);
-    text-decoration: underline;
+    color: #1a1d20;
 }
+
 .Recommend{
     padding-bottom: 50px;
 }

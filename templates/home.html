@@ -69,42 +69,60 @@
     </section>
 
     <section id="articles" class="articles-section">
-        <div class="container">
-            <h2>Featured Articles</h2>
-            <div class="article-list">
-                <article class="article-card">
-                    <div class="article-image">
-                        <img src="{% static 'm.jpg/download.jpg' %}" alt="Anxiety" class="article-graphic">
-                    </div>
-                    <div class="article-content">
-                        <h3>Understanding Anxiety</h3>
-                        <p>Anxiety is a feeling of fear, dread, and uneasiness that can be caused by the anticipation of danger. It can be a normal reaction to stress, like when you're faced with a difficult problem at work or before taking a test. However, anxiety disorders involve </p>
-                        <a href="anxiety.html" class="read-more-link">Read more</a>
-                    </div>
-                </article>
-                <article class="article-card">
-                    <div  class="article-image">
-                        <img src="{% static 'm.jpg/deperssion.jpg' %}" alt="Depression" class="article-graphic">
-                    </div>
-                    <div class="article-content">
-                        <h3>Managing Depression</h3>
-                        <p>Depression can be treated with a combination of psychotherapy, medication, and other approaches. The right treatment depends on your needs and preferences, and may involve trying different approaches.</p>
-                        <a href="depression.html" class="read-more-link">Read more</a>
-                    </div>
-                </article>
-                <article class="article-card">
-                    <div  class="article-image">
-                        <img src="{% static 'm.jpg/mindfulness.jpg' %}" alt="Mindfulness" class="article-graphic">
-                    </div>
-                    <div class="article-content">
-                        <h3>Mindfulness Techniques</h3>
-                        <p>Mindfulness is a type of meditation in which you focus on being intensely aware of what you're sensing and feeling in the moment, without interpretation or judgment. Practicing mindfulness involves breathing methods, guided imagery, and other practices</p>
-                        <a href="mindful.html" class="read-more-link">Read more</a>
-                    </div>
-                </article>
-            </div>
+        <h2>Featured Articles</h2>
+        <div class="article-list">
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="{% static 'm.jpg/download.jpg' %}" alt="Anxiety" class="article-graphic">
+                </div>
+                <div class="article-content">
+                    <h3>Understanding Anxiety</h3>
+                    <p>
+                        Anxiety is a feeling of fear, dread, and uneasiness that can be caused by the anticipation of danger. 
+                        It can be a normal reaction to stress, like when you're faced with a difficult problem at work or before taking a test.
+                        <span class="more-text"> However, anxiety disorders involve excessive worry or fear that affects daily life. Understanding its causes and symptoms is key to managing it effectively.
+                            <a href="https://magazine.medlineplus.gov/topic/anxiety/" class="inline-link">Medlineplus - Know more in this article</a>.
+                        </span>
+                        <span class="read-more-link">Read more</span>
+                    </p>
+                </div>
+            </article>
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="{% static 'm.jpg/deperssion.jpg' %}" alt="Depression" class="article-graphic">
+                </div>
+                <div class="article-content">
+                    <h3>Managing Depression</h3>
+                    <p>
+                        Depression is a low mood that lasts for a long time, affecting everyday life. It is often triggered by a mix of genetic, psychological and environmental factors; studies show that the risk of becoming depressed can be increased by life events such as 
+                        <span class="more-text"> poverty, death of a loved one, physical illness or abuse. For some, the risk is also hereditary.
+                            Depression can be treated with a combination of psychotherapy, medication, and other approaches. Lifestyle changes, such as regular exercise, healthy eating, and stress reduction, can also play a significant role in recovery. Support from family and friends is invaluable.
+                            <a href = "https://www.news-medical.net/health/Genes-and-Depression.aspx" class = "inline-link">Medical.net - Know more in this article</a>
+                        </span>
+                        <span class="read-more-link">Read more</span>
+                    </p>
+                </div>
+            </article>
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="{% static 'm.jpg/mindfulness.jpg' %}" alt="Mindfulness" class="article-graphic">
+                </div>
+                <div class="article-content">
+                    <h3>Mindfulness Techniques</h3>
+                    <p>
+                        Mindfulness is a type of meditation in which you focus on being intensely aware of what you're sensing and feeling in the moment.
+                        <span class="more-text"> People who practice mindfulness say it fundamentally changes how they experience life. For the past 40 years, researchers have been attempting to explain this in biological terms. Studies reveal that mindfulness may reduce anxiety and depression, boost your immune system, help you manage pain, allow you to unhook from unhealthy habits and addictions, soothe insomnia, reduce high blood pressure, and even change the structure and function of your brain in positive ways—perhaps in as little as 8 weeks of practice. It has been shown to reduce stress, improve mental clarity, and promote overall well-being. Techniques like deep breathing and guided imagery are often used.
+                        <a href = "https://www.mindful.org/the-science-of-mindfulness/" class = "inline-link">Minfulness - Know more in this article</a>
+                        
+                        </span>
+                        <span class="read-more-link">Read more</span>
+                    </p>
+                </div>
+            </article>
         </div>
     </section>
+    
+    
     <section id = "Recommend" class = "Recommend">
     <div class = "Recommendation">
         <h1> Checkout </h1>
@@ -208,7 +226,7 @@
         <div class="container">
             <div class="nutrition-header">
                 <div>
-                    <h2>Self-Care</h2>
+                <h2>Self-Care</h2>
                 </div>
                 <div>
                     <a href="all-peace.html" class="see-all-link" onclick="navigatetoselfcare();">See All</a>
@@ -385,7 +403,20 @@
          function navigatetoissues(){
             const loc ="{% url 'issues'}";
             window.location.href=loc;
-         }    
+         }  
+         
+         document.querySelectorAll('.read-more-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const moreText = link.previousElementSibling;
+                if (moreText.style.display === "inline") {
+                    moreText.style.display = "none";
+                    link.textContent = "Read more";
+                } else {
+                    moreText.style.display = "inline";
+                    link.textContent = "Read less";
+                }
+            });
+        });
    </script>
 </body>
 </html>
