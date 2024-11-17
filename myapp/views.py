@@ -19,41 +19,115 @@ from django.http import JsonResponse
 import json
 from .models import Question
 
+from django.shortcuts import render
+from .models import Question
+from .models import Option
+
 
 @login_required
+
+
+
 def quiz(request):
-    # Fetch all questions for stage 1 and stage 2, prefetching their associated options
-    stage_1_questions = Question.objects.filter(stage=1).prefetch_related('options')
-    stage_2_questions = Question.objects.filter(stage=2).prefetch_related('options')
-    
-    quiz_data = {
-        'stage_1': [],
-        'stage_2': []
-    }
-    
-    # Organize stage 1 questions
-    for question in stage_1_questions:
-        options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
-        quiz_data['stage_1'].append({
-            'question_id': question.id,
-            'text': question.text,
-            'options': options
-        })
+    questions_data = []
+    questions = Question.objects.prefetch_related('options').all()
 
-    # Organize stage 2 questions
-    for question in stage_2_questions:
-        options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
-        quiz_data['stage_2'].append({
-            'question_id': question.id,
-            'text': question.text,
-            'options': options
+    for question in questions:
+        # Debugging: Check if options are correctly loaded
+        print(f"Question: {question.question_text}")
+        options = []
+        for option in question.options.all():
+            
+            
+            options.append({
+                "id": option.id,
+                "text": option.option_text,
+                "disorders": {
+                    "Depression": option.depression_percentage,
+                    "Mood Disorder": option.mood_disorder_percentage,
+                    "Anxiety": option.anxiety_percentage,
+                    "Somatic Disorder": option.somatic_disorder_percentage,
+                    "Trauma": option.trauma_percentage,
+                    "Stress": option.stress_precentage,
+                    "Obsessive Compulsive": option.obsessive_compulsive_percentage,
+                    "Psychotic": option.psychotic_percentage,
+                    "Dissociative": option.dissociative_precentage,
+                    "Neurocognitive": option.neurocognitive_percentage,
+                    "Neurodevelopmental": option.neurodevelopmental_percentage,
+                    "Substance Use": option.substance_use_percentage,
+                    "Personality": option.personality_precentage,
+                    "Sleep-Wake": option.sleep_disorder_percentage,
+                    "Self-Harm": option.self_harm_percentage,
+                    "Eating Disorder": option.eating_percentage,
+                }
+            })
+        
+        questions_data.append({
+            "id": question.id,
+            "text": question.question_text,
+            "options": options
         })
-
     
-    context = {
-        'quiz_data': json.dumps(quiz_data),
-    }
-    return render(request, 'quiz.html', context)
+    
+
+    return render(request, 'quiz.html', {"quiz_data": json.dumps(questions_data)})
+
+
+
+# def quiz(request):
+#     questions_data = []
+#     questions = Question.objects.prefetch_related('options').all()
+
+#     for question in questions:
+#         options = [
+#             {
+#                 "id": option.id,
+#                 "text": option.option_text,
+#                 "disorders": {
+#                     "Depression": option.depression_percentage,
+#                     "Mood Disorder": option.mood_disorder_percentage,
+#                     "Anxiety": option.anxiety_percentage,
+#                     "Somatic Disorder": option.somatic_disorder_percentage,
+#                     "Trauma": option.trauma_percentage,
+#                     "Stress": option.stress_precentage,
+#                     "Obsessive Compulsive": option.obsessive_compulsive_percentage,
+#                     "Psychotic": option.psychotic_percentage,
+#                     "Dissociative": option.dissociative_precentage,
+#                     "Neurocognitive": option.neurocognitive_percentage,
+#                     "Neurodevelopmental": option.neurodevelopmental_percentage,
+#                     "Substance Use": option.substance_use_percentage,
+#                     "Personality": option.personality_precentage,
+#                     "Sleep-Wake": option.sleep_disorder_percentage,
+#                     "Self-Harm": option.self_harm_percentage,
+#                     "Eating Disorder": option.eating_percentage,
+#                 }
+#             }
+#             for option in question.options.all()
+#         ]
+
+#         questions_data.append({
+#             "id": question.id,
+#             "text": question.question_text,
+#             "options": options
+#         })
+        
+     
+      
+
+#     return render(request, 'quiz.html', {"quiz_data": json.dumps(questions_data) })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,31 +155,38 @@ def quiz(request):
 
 
 # def quiz(request):
-#     # Fetch all questions and their associated options and diagnoses
-#     questions = Question.objects.prefetch_related('options__diagnosis')  # Prefetch related options and diagnoses
     
-#     quiz_data = []
+#     stage_1_questions = Question.objects.filter(stage=1).prefetch_related('options')
+#     stage_2_questions = Question.objects.filter(stage=2).prefetch_related('options')
     
-#     for question in questions:
-#         options = []
-#         for option in question.options.all():
-#             # Collecting option text and its corresponding diagnosis
-#             options.append({
-#                 'text': option.text,
-#                 'diagnosis': option.diagnosis.name if option.diagnosis else None  # Safely getting diagnosis name
-#             })
-
-#         quiz_data.append({
-#             'question': question.text,
-#             'options': options,
-#         })
-        
-#     context = {
-#         'quiz_data': json.dumps(quiz_data),  
+#     quiz_data = {
+#         'stage_1': [],
+#         'stage_2': []
 #     }
     
-#     return render(request, 'quiz.html', context)
+    
+#     for question in stage_1_questions:
+#         options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
+#         quiz_data['stage_1'].append({
+#             'question_id': question.id,
+#             'text': question.text,
+#             'options': options
+#         })
 
+    
+#     for question in stage_2_questions:
+#         options = [{'id': option.id, 'text': option.text} for option in question.options.all()]
+#         quiz_data['stage_2'].append({
+#             'question_id': question.id,
+#             'text': question.text,
+#             'options': options
+#         })
+
+    
+#     context = {
+#         'quiz_data': json.dumps(quiz_data),
+#     }
+#     return render(request, 'quiz.html', context)
 
 
 

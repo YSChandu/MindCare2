@@ -71,6 +71,9 @@ body {
 #options-container .next-btn{
     margin: 10px;
 }
+#start-page p{
+    letter-spacing: 2px;
+}
 
 .next-btn {
     background-color:white;

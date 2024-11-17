@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r&glp(tc0=7u_)fret-hrw6r4=(hv&9hmeom$43vyw6=r1*#wa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0989-175-101-105-133.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'f307-175-101-105-133.ngrok-free.app']
 
 
 
@@ -72,21 +72,49 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mentalhealth.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://0989-175-101-105-133.ngrok-free.app',  # Use HTTPS
+      # Use HTTPS
 ]
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mindcare',  # Replace with your database name
-        'USER': 'root',        # Replace with your MySQL username
-        'PASSWORD': 'SAIchandu@8328523705',    # Replace with your MySQL password
-        'HOST': 'localhost',            # Set to 'localhost' or your database host
-        'PORT': '3306',                 # Default MySQL port
+
+
+
+import os
+
+if os.getenv("USE_MYSQL"):
+    DATABASES = {
+        'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'mindcare',  
+                'USER': 'root',        
+                'PASSWORD': 'SAIchandu@8328523705',    
+                'HOST': 'localhost',            
+                'PORT': '3306',                 
+            }
+ }
+    
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'mindcare',  
+#         'USER': 'root',        
+#         'PASSWORD': 'SAIchandu@8328523705',    
+#         'HOST': 'localhost',            
+#         'PORT': '3306',                 
+#     }
+# }
 
 
 

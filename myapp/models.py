@@ -3,26 +3,205 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class Diagnosis(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.name
-
 class Question(models.Model):
-    text = models.TextField()
-    stage = models.IntegerField(default=1) # 1 for Stage 1, 2 for Stage 2
+    question_type = models.CharField(max_length=50 , default="stage_1")
+    question_text = models.TextField()
 
     def __str__(self):
-        return f"Stage {self.stage} - {self.text}"
+        return self.question_text
 
 class Option(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
-    text = models.CharField(max_length=255)
-    diagnosis = models.ForeignKey(Diagnosis, on_delete=models.SET_NULL, null=True, blank=True)
+    question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
+    option_text = models.TextField(default="Default option text")
+    depression_percentage = models.IntegerField(default=0)
+    anxiety_percentage = models.IntegerField(default=0)
+    mood_disorder_percentage = models.IntegerField(default=0)
+    somatic_disorder_percentage = models.IntegerField(default=0)
+    trauma_percentage = models.IntegerField(default=0)
+    stress_precentage = models.IntegerField(default=0)
+    obsessive_compulsive_percentage=models.IntegerField(default=0)
+    psychotic_percentage =models.IntegerField(default=0)
+    dissociative_precentage = models.IntegerField(default=0)
+    neurocognitive_percentage = models.IntegerField(default=0)
+    neurodevelopmental_percentage =  models.IntegerField(default=0)
+    substance_use_percentage = models.IntegerField(default=0)
+    personality_precentage = models.IntegerField(default=0)
+    sleep_disorder_percentage = models.IntegerField(default=0)
+    self_harm_percentage = models.IntegerField(default=0)
+    eating_percentage = models.IntegerField(default=0)
+    
+
 
     def __str__(self):
-        return f"{self.question.text} - {self.text}"
+        return self.option_text
+
+
+
+# seperate tables for recommendation approach 3 
+
+class BreathingExercise(models.Model):
+    exercise_name = models.CharField(max_length=50)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.exercise_name
+
+
+
+class Workout(models.Model):
+    workout_name = models.CharField(max_length=50)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.workout_name
+
+
+class Music(models.Model):
+    music_name = models.CharField(max_length=50)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.music_name
+
+
+class Yoga(models.Model):
+    yoga_name = models.CharField(max_length=50)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.yoga_name
+
+
+class Book(models.Model):
+    book_name = models.CharField(max_length=100)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.book_name
+
+
+
+class Podcast(models.Model):
+    podcast_name = models.CharField(max_length=100)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.podcast_name
+
+
+
+class Movie(models.Model):
+    movie_name = models.CharField(max_length=100)
+    depression_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    anxiety_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    mood_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    somatic_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    trauma_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    stress_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    obsessive_compulsive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    psychotic_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    dissociative_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurocognitive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    neurodevelopmental_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    substance_use_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    personality_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sleep_disorder_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    self_harm_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    eating_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.movie_name
+
 
 class UserResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -34,59 +213,6 @@ class UserResponse(models.Model):
         return f'{self.user.username} - {self.question.text} - {self.selected_option.text}'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class Diagnosis(models.Model):
-#     name = models.CharField(max_length=255, unique=True)
-    
-#     def __str__(self):
-#         return self.name
-
-
-# class Question(models.Model):
-#     text = models.TextField()  
-
-#     def __str__(self):
-#         return self.text
-
-# class Option(models.Model):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
-#     text = models.CharField(max_length=255)  
-#     diagnosis = models.ForeignKey(Diagnosis, on_delete=models.SET_NULL, null=True, blank=True)
-
-#     def __str__(self):
-#         return f"{self.question.text} - {self.text}"
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -114,7 +240,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-# Signal to automatically create Profile when a User is created
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
