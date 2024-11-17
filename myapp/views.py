@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.db import connection
 from django.http import JsonResponse
-import openai
 from django.utils import timezone
 from django.shortcuts import render
 from django.http import JsonResponse
