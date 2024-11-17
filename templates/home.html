@@ -117,19 +117,19 @@
             justify-content: space-around;
             ">
             <div>
-                <img style="margin-right: 200px;" src={% static 'm.jpg/bot2.gif'%}> 
+                <img style="margin-right: 50px;" src={% static 'm.jpg/bot2.gif'%}> 
             </div>
-            <div>
+            <div style="display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            ">
                 <div style="
-                margin-top: 250px;
-                margin-left: 200px;
-                    ">
+                width:400px;
+                ">
                     <h2>Wanna try our new AI Chatbot ???</h2>
                 </div>
-                <div style="
-                margin-top: 10px;
-                margin-left: 200px;
-                ">
+                <div >
                 
                     <button 
                     onclick="window.location.href='{% url 'chatbot' %}';"
@@ -170,7 +170,7 @@
                         <img src="{% static 'm.jpg/Ocd.png' %}" alt="Protien" class="nutrition-image">
                     </div>
                     <div class="nutrition-content">
-                        <h3>Obsessive-Compulsive and Related Disorders</h3>
+                        <h3>OCD</h3>
                         <p>These disorders involve intrusive, unwanted thoughts (obsessions) and repetitive behaviors (compulsions).</p>
                     </div>
                 </article>
@@ -179,7 +179,7 @@
                         <img src="{% static 'm.jpg/trauma.png' %}" alt="Vitamins & Minerals" class="nutrition-image">
                     </div>
                     <div class="nutrition-content">
-                        <h3>Trauma- and Stressor-Related Disorders</h3>
+                        <h3>Stress and Trauma</h3>
                         <p>These disorders develop after exposure to a traumatic or stressful event.</p>
                     </div>
                 </article>

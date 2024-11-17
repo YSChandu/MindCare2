@@ -30,10 +30,10 @@ urlpatterns=[
     path('issues/self-harm/', views.selfharm, name='self_harm'),
     path('aboutus/',views.aboutus,name='aboutus'),
     path('music/',views.music,name='music'),
-    path('resources/movies/',views.movies,name='movies'),
-    path('resources/breathing',views.breathing,name='breathing'),
-    path('resources/workout',views.exercise,name='workout'),
-    path('resources/selfhelpbooks',views.selfhelpbooks,name='selfhelpbooks')
+    path('movies',views.movies,name='movies'),
+    path('breathing',views.breathing,name='breathing'),
+    path('workout',views.exercise,name='workout'),
+    path('selfhelpbooks',views.selfhelpbooks,name='selfhelpbooks')
 ]
 
 

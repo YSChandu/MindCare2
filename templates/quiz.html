@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="{% static 'quiz.css' %}">
 </head>
 <body>
+    <div>
+        <img id="img" src="{% static 'm.jpg/kungfu_quiz.jpeg' %}" alt="Quiz Image">
+    </div>
     <div class="quiz-container">
         <h2 class="quiz-title">Mental Health Quiz</h2>
-
         <div id="start-page">
             <p>This quiz has two stages where the first stage has more generalized questions about mental health issues. Please note that the main aim of this quiz is to analyze the user's mental health issue based on their responses. Don't panic and follow the recommendations provided at the end.</p>
             <button id="start-btn" class="next-btn" onclick="startQuiz()">Start Quiz</button>
@@ -39,35 +41,35 @@
 
         let currentQuestionIndex = 0;
         let selectedOptionId = null;
-        const threshold = 5; // Threshold value for disorders
+        const threshold = 200; // Threshold value for disorders
         const identifiedDisorders = []; // Disorders exceeding the threshold
         let stage = 1; // Current stage of the quiz
 
         const disorderScores = {
             "Depression": 0,
-            "Mood Disorder": 0,
-            "Anxiety": 0,
-            "Somatic Disorder": 0,
-            "Trauma": 0,
-            "Stress": 0,
-            "Obsessive Compulsive": 0,
-            "Psychotic": 0,
-            "Dissociative": 0,
-            "Neurocognitive": 0,
-            "Neurodevelopmental": 0,
-            "Substance Use": 0,
-            "Personality": 0,
-            "Sleep-Wake": 0,
+            "Mood Disorders": 0,
+            "Anxiety Disorders": 0,
+            "Somatic Disorders": 0,
+            "Trauma-Related Disorders": 0,
+            "Stress-Related Disorders": 0,
+            "Obsessive-Compulsive Disorder (OCD)": 0,
+            "Psychotic Disorders": 0,
+            "Dissociative Disorders": 0,
+            "Neurocognitive Disorders": 0,
+            "Neurodevelopmental Disorders": 0,
+            "Substance Use Disorders": 0,
+            "Personality Disorders": 0,
+            "Sleep-Wake Disorders": 0,
             "Self-Harm": 0,
-            "Eating": 0
+            "Eating Disorders": 0
         };
 
         // Function to filter questions for each stage
         function filterQuestions(stage) {
             if (stage === 1) {
-                return quizData.filter(question => question.name === "stage_1");
+                return quizData.filter(question => question.type === "stage_1");
             } else {
-                return quizData.filter(question => identifiedDisorders.includes(question.name));
+                return quizData.filter(question => identifiedDisorders.includes(question.type));
             }
         }
 
@@ -136,7 +138,9 @@
 
         // Function to start the quiz
         function startQuiz() {
+
             document.getElementById('start-page').style.display = 'none';
+            document.getElementById('img').style.display = 'none';
             document.getElementById('quizplace').style.display = 'block';
             loadNextQuestion();
         }
@@ -149,7 +153,7 @@
                 const question = filteredQuestions[currentQuestionIndex];
                 displayQuestion(question);
             } else if (stage === 1) {
-                // Move to stage 2
+                
                 checkDisorders();
                 if (identifiedDisorders.length > 0) {
                     stage = 2;

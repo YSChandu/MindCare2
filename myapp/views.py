@@ -33,36 +33,36 @@ def quiz(request):
 
     for question in questions:
         # Debugging: Check if options are correctly loaded
-        print(f"Question: {question.question_text}")
+        print(f"Question: {question.question_type}")
         options = []
         for option in question.options.all():
-            
-            
             options.append({
                 "id": option.id,
                 "text": option.option_text,
                 "disorders": {
-                    "Depression": option.depression_percentage,
-                    "Mood Disorder": option.mood_disorder_percentage,
-                    "Anxiety": option.anxiety_percentage,
-                    "Somatic Disorder": option.somatic_disorder_percentage,
-                    "Trauma": option.trauma_percentage,
-                    "Stress": option.stress_precentage,
-                    "Obsessive Compulsive": option.obsessive_compulsive_percentage,
-                    "Psychotic": option.psychotic_percentage,
-                    "Dissociative": option.dissociative_precentage,
-                    "Neurocognitive": option.neurocognitive_percentage,
-                    "Neurodevelopmental": option.neurodevelopmental_percentage,
-                    "Substance Use": option.substance_use_percentage,
-                    "Personality": option.personality_precentage,
-                    "Sleep-Wake": option.sleep_disorder_percentage,
-                    "Self-Harm": option.self_harm_percentage,
-                    "Eating Disorder": option.eating_percentage,
+                        "Depression": option.depression_percentage,
+                        "Mood Disorders": option.mood_disorder_percentage,
+                        "Anxiety Disorders": option.anxiety_percentage,
+                        "Somatic Disorders": option.somatic_disorder_percentage,
+                        "Trauma-Related Disorders": option.trauma_percentage,
+                        "Stress-Related Disorders": option.stress_precentage,
+                        "Obsessive-Compulsive Disorder (OCD)": option.obsessive_compulsive_percentage,
+                        "Psychotic Disorders": option.psychotic_percentage,
+                        "Dissociative Disorders": option.dissociative_disorders_percentage,
+                        "Neurocognitive Disorders": option.neurocognitive_percentage,
+                        "Neurodevelopmental Disorders": option.neurodevelopmental_percentage,
+                        "Substance Use Disorders": option.substance_use_percentage,
+                        "Personality Disorders": option.personality_precentage,
+                        "Sleep-Wake Disorders": option.sleep_disorder_percentage,
+                        "Self-Harm": option.self_harm_percentage,
+                        "Eating Disorders": option.eating_percentage
+                        
                 }
             })
         
         questions_data.append({
             "id": question.id,
+            "type":question.question_type,
             "text": question.question_text,
             "options": options
         })

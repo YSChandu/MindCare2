@@ -293,7 +293,7 @@ header {
 }
 
 .nutrition-card {
-    background-color: #f0f8ff; /* Light background matching your theme */
+    background-color: #ffffff; /* Light background matching your theme */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden; /* Rounded corners */
