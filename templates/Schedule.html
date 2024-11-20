@@ -1,10 +1,11 @@
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Schedule</title>
-    <link rel="stylesheet" href="schedule.css"> <!-- Link to CSS File -->
+    <link rel="stylesheet" href="{% static 'schedule.css' %}">
 </head>
 <body>
     <div class="container">
@@ -24,7 +25,7 @@
                                 <th>7 pm</th>
                                 <th>9 pm</th>
                                 <th class="actions">
-                                    <button id="add-task" onclick="openTaskForm()">Add Task</button>
+                                    <button class="button" id="add-task" onclick="openTaskForm()">Add Task</button>
                                 </th>
                             </tr>
                         </thead>
@@ -116,8 +117,8 @@
                 <option value="05pm">07:00 PM</option>
                 <option value="07pm">09:00 PM</option>
             </select>
-            <button onclick="saveTask()">Save Task</button>
-            <button onclick="closeTaskForm()">Cancel</button>
+            <button class="button1" onclick="saveTask()">Save Task</button>
+            <button class="button1" onclick="closeTaskForm()">Cancel</button>
         </div>
     </div>
 
@@ -141,16 +142,20 @@
             const taskCell = document.getElementById(`${taskDay}-${taskTime}`);
 
             // If the slot is empty, add the task
-            if (taskCell.innerHTML === "") {
-                taskCell.innerHTML = `<h4>${taskName}</h4>`;
-            } else {
-                // If the slot is already filled, append the new task below the existing one
-                taskCell.innerHTML += `<div><h4>${taskName}</h4></div>`;
-            }
+            
+           const taskDiv = document.createElement('div');
+           taskDiv.classList.add('task-item');
+           taskDiv.innerHTML = `<h4>${taskName}</h4> <button onclick="deleteTask(this)">Delete</button>`;
+           taskCell.appendChild(taskDiv);
 
             // Close the form after saving
             closeTaskForm();
         }
+        function deleteTask(button) {
+                button.parentElement.remove();
+        }
+
+
     </script>
 </body>
 </html>

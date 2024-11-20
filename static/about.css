@@ -46,7 +46,7 @@ h1 {
 .core-values h2 {
     text-align: center;
     font-size: 40px;
-    color:#000000;
+    color:#4a2d00;
     font-style: italic;
 } 
 
@@ -57,6 +57,7 @@ h1 {
 }
   
   .values-container {
+    padding-top: 30px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -66,7 +67,7 @@ h1 {
   
   .value-item {
     width: 250px;
-    background-color: #f4f4f9;
+    background-color: #4a2d00;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -82,13 +83,15 @@ h1 {
   }
   
   .value-item h3 {
-    color: #000000;
+    background-color: #4a2d00;
+    color: #ffffff;
     font-size: 22px;
     margin-bottom: 10px;
   }
   
   .value-item p {
-    color: #070707;
+    background-color: #4a2d00;
+    color: #ffffff;
     font-size: 20px;
   }
   
@@ -112,8 +115,8 @@ h1 {
   }
   
   .guide-pic {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
     display: block;
     margin: 0 auto 10px auto;
@@ -121,31 +124,38 @@ h1 {
   
   .team-members {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 20px;
+    
   }
-  .team h2 {
-    text-align: center;
-    font-size: 40px;
-    font-style:italic;
-  }
+  
   .member {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    width: 45%;
-    justify-content: flex-start;
+    gap: 200px;
   }
   
   .profile-pic {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-right: 15px;
+    width: 250px;
+    height: 250px;
+    padding-left: 200px;
+  }
+  
+  .details {
+    display: flex;
+    flex-direction: column;
+    color: #4a2d00;
+  }
+  
+  .details h3 {
+    font-size: 1.2em;
+    color: #4a2d00;
   }
   
   .member p {
     font-size: 18px;
-    margin: 0;
+    margin: 5px 0;
   }
   
   .member a {
@@ -156,7 +166,6 @@ h1 {
   .member a:hover {
     text-decoration: underline;
   }
-  
   
 
 /* Footer Styles */

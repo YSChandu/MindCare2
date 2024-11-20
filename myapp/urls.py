@@ -33,7 +33,10 @@ urlpatterns=[
     path('movies',views.movies,name='movies'),
     path('breathing',views.breathing,name='breathing'),
     path('workout',views.exercise,name='workout'),
-    path('selfhelpbooks',views.selfhelpbooks,name='selfhelpbooks')
+    path('selfhelpbooks',views.selfhelpbooks,name='selfhelpbooks'),
+    path('schedules',views.schedules,name='schedules'),
+    path('process-quiz/', views.process_quiz_results, name='process_quiz'),
+    path('recommendations/', views.recommendations, name='recommendations')
 ]
 
 

@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+class QuizResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    disorder_scores = models.JSONField()  # Store scores as JSON
+    completed_at = models.DateTimeField(auto_now_add=True)  # Track completion time
+
+    def __str__(self):
+        return f"Quiz Result for {self.user.username} at {self.completed_at}"
+    
+
 class Question(models.Model):
     question_type = models.CharField(max_length=50 , default="stage_1")
     question_text = models.TextField()
