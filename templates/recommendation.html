@@ -8,7 +8,26 @@
     <link rel="stylesheet" href="{% static 'recommendation.css' %}">
 </head>
 <body>
-    <h1>Your Recommendations</h1>
+    {% if non_zero_disorder_scores %}
+            <h2 style="margin-left: 50px;">Your Disorder Scores:</h2>
+            <ul style="margin-left: 100px;
+            margin-bottom: 50px;
+            margin-top: 50px;">
+                {% for disorder, data in non_zero_disorder_scores.items %}
+                    <li>
+                        <strong>{{ disorder }}</strong>: 
+                        - <em>{{ data.description }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+
+    
+    <h2 style="margin-left: 50px;">Your Recommendations</h2>
     <h2>{{message}}</h2>
 
     <div class="recommend-container">
@@ -19,7 +38,7 @@
                 <div style="margin-right: 100px;">
                     <h2>Books</h2>
                     <ul>
-                        {% for book in book_recommendations|slice:":10" %}
+                        {% for book in book_recommendations|slice:":7" %}
                             <li>{{ book }}</li>
                         {% endfor %}
                     </ul>
@@ -63,11 +82,11 @@
         {% if movie_recommendations %}
         <div class="recommend">
             <div class="resource-elements-img">
-                <img style="width:300px" src="{% static 'm.jpg/re-book.jpg' %}" alt="Movies">
+                <img style="width:300px" src="{% static 'm.jpg/moviee2.jpg' %}" alt="Movies">
                 <div>
                     <h2>Movies</h2>
                     <ul>
-                        {% for movie in movie_recommendations|slice:":10" %}
+                        {% for movie in movie_recommendations|slice:":6" %}
                             <li>{{ movie }}</li>
                         {% endfor %}
                     </ul>
@@ -83,7 +102,7 @@
                 <div style="margin-right: 100px;">
                     <h2>Music</h2>
                     <ul>
-                        {% for track in music_recommendations|slice:":10" %}
+                        {% for track in music_recommendations|slice:":6" %}
                             <li>{{ track }}</li>
                         {% endfor %}
                     </ul>
@@ -111,7 +130,7 @@
         {% if yoga_recommendations %}
         <div class="recommend">
             <div class="resource-elements-img">
-                <img style="width:300px" src="{% static 'm.jpg/re-book.jpg' %}" alt="Yoga">
+                <img style="width:300px" src="{% static 'm.jpg/yogaa1.jpg' %}" alt="Yoga">
                 <div>
                     <h2>Yoga</h2>
                     <ul>
@@ -123,6 +142,23 @@
             </div>
         </div>
         {% endif %}
+        
+        
+        
     </div>
+    <button style="margin-left : 900px;
+        text-decoration: none;
+        font-size: 15px;
+        border-radius: 10px;
+        border-width: 2px;
+        border-color: black;
+        cursor: pointer;"  onclick="back();">Back</button>
+    <script>
+        function back(){
+            const loc ="{% url 'home' %}";
+            window.location.href=loc;
+         }
+    
+    </script>
 </body>
 </html>

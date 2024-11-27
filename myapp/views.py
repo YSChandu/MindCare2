@@ -12,7 +12,7 @@ import json
 from django.shortcuts import render
 from django.db.models import Q
 import json
-
+import openai
 
 
 def process_quiz_results(request):
@@ -55,6 +55,12 @@ DISORDER_COLUMN_MAPPING = {
     "Eating Disorders": "eating_percentage",
 }
 
+SCORE_DESCRIPTION_MAPPING = {
+    0: "No signs of this disorder.",
+    100: "Mild symptoms detected.",
+    200: "Significant symptoms detected; consider seeking help.",
+}
+
 def recommendations(request):
     # Fetch the latest quiz results for the user
     result = QuizResult.objects.filter(user=request.user).order_by('-completed_at').first()
@@ -65,8 +71,17 @@ def recommendations(request):
     # Use scores directly (0, 100, or 200)
     disorder_scores = result.disorder_scores
 
+    # Filter non-zero scores and add descriptions
+    non_zero_disorder_scores = {
+        disorder: {
+            "score": score,
+            "description": SCORE_DESCRIPTION_MAPPING.get(score, "Unknown severity"),
+        }
+        for disorder, score in disorder_scores.items() if score > 0
+    }
+
     # Check if all scores are zero
-    if all(score == 0 for score in disorder_scores.values()):
+    if not non_zero_disorder_scores:
         return render(request, "recommendation.html", {
             "message": "Great news! Your scores indicate that you are doing well. No specific recommendations are needed at this time.",
             "book_recommendations": [],
@@ -76,6 +91,7 @@ def recommendations(request):
             "music_recommendations": [],
             "workout_recommendations": [],
             "yoga_recommendations": [],
+            "non_zero_disorder_scores": {},
         })
 
     # Separate recommendations for each type
@@ -88,11 +104,8 @@ def recommendations(request):
     yoga_recommendations = set()
 
     # Gather recommendations for non-zero scores
-    for disorder, score in disorder_scores.items():
-        # Skip if score is 0
-        if score == 0:
-            continue
-            
+    for disorder, data in non_zero_disorder_scores.items():
+        score = data["score"]
         disorder_column = DISORDER_COLUMN_MAPPING.get(disorder)
         if disorder_column:
             # Fetch books where disorder value matches user's score
@@ -158,12 +171,14 @@ def recommendations(request):
             "music_recommendations": [],
             "workout_recommendations": [],
             "yoga_recommendations": [],
+            "non_zero_disorder_scores": non_zero_disorder_scores,
         })
 
     return render(
         request,
         "recommendation.html",
         {
+            "message": "",
             "book_recommendations": list(book_recommendations),
             "exercise_recommendations": list(exercise_recommendations),
             "podcast_recommendations": list(podcast_recommendations),
@@ -171,9 +186,11 @@ def recommendations(request):
             "music_recommendations": list(music_recommendations),
             "workout_recommendations": list(workout_recommendations),
             "yoga_recommendations": list(yoga_recommendations),
+            "non_zero_disorder_scores": non_zero_disorder_scores,
         },
     )
-    
+
+   
 
 @login_required
 def quiz(request):
@@ -217,7 +234,7 @@ def quiz(request):
 
     # Handle POST request for recommendations
     if request.method == "POST":
-        threshold = 200
+        threshold = 150
         scores = json.loads(request.POST.get('disorder_scores', '{}'))
         high_scoring_disorders = {disorder: score for disorder, score in scores.items() if score > threshold}
 
@@ -385,39 +402,160 @@ def quiz(request):
 #     }
 #     return render(request, 'quiz.html', context)
 
+import os
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.utils import timezone
+import openai
 
+import logging
 
-# openai_api_key = ''
-# openai.api_key = openai_api_key
+def assess_support_level(message):
+    """
+    Assess the support level based on message content
+    """
+    high_risk_keywords = [
+        'suicide', 'kill myself', 'want to die', 
+        'hopeless', 'cant go on', 'ending it all',
+        'giving up', 'no way out', 'pain is too much'
+    ]
+    
+    moderate_risk_keywords = [
+        'depressed', 'anxious', 'stressed', 
+        'overwhelmed', 'struggling', 'help',
+        'sad', 'lonely', 'worthless', 'exhausted'
+    ]
+    
+    message_lower = message.lower()
+    
+    if any(keyword in message_lower for keyword in high_risk_keywords):
+        return 'high_risk'
+    elif any(keyword in message_lower for keyword in moderate_risk_keywords):
+        return 'moderate_risk'
+    
+    return 'low_risk'
 
 def ask_openai(message):
-    # Ensure you're using the correct model
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": message}
-        ]
-    )
+    """
+    Generate a response using OpenAI's ChatGPT with support level assessment
+    """
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system", 
+                    "content": "You are a compassionate, empathetic mental health support assistant. " 
+                               "Provide supportive, understanding responses. Be kind, non-judgmental, " 
+                               "and offer gentle guidance when appropriate."
+                },
+                {"role": "user", "content": message}
+            ]
+        )
+        
+        # Extract the response from the assistant
+        bot_response = response['choices'][0]['message']['content'].strip()
+        return bot_response
     
-    # Extract the response from the assistant
-    bot_response = response['choices'][0]['message']['content'].strip()
-    return bot_response
+    except Exception as e:
+        logging.error(f"OpenAI API error: {e}")
+        return "I'm here to listen. Would you like to share more about how you're feeling?"
 
-# Create your views here.
 @login_required
 def chatbot(request):
-    chats = Chat.objects.filter(user=request.user)
-
+    """
+    Handle chatbot interactions with chat history management
+    """
+    # Clear existing chat history on page refresh/load
+    if request.method == 'GET':
+        Chat.objects.filter(user=request.user).delete()
+    
+    # Handle POST requests for sending messages
     if request.method == 'POST':
-        message = request.POST.get('message')
-        response = ask_openai(message)
+        message = request.POST.get('message', '').strip()
+        
+        if not message:
+            return JsonResponse({
+                'message': '', 
+                'response': 'I noticed you sent an empty message. Would you like to share something?',
+                'support_level': 'low_risk'
+            })
+        
+        # Assess support level
+        support_level = assess_support_level(message)
+        
+        # Generate response using OpenAI
+        try:
+            response = ask_openai(message)
+            
+            # Create and save chat entry
+            chat = Chat(
+                user=request.user, 
+                message=message, 
+                response=response, 
+                support_level=support_level,
+                created_at=timezone.now()
+            )
+            chat.save()
+            
+            return JsonResponse({
+                'message': message, 
+                'response': response,
+                'support_level': support_level
+            })
+        
+        except Exception as e:
+            logging.error(f"Chatbot error: {e}")
+            return JsonResponse({
+                'message': message, 
+                'response': 'Sorry, I am experiencing some technical difficulties.',
+                'support_level': 'low_risk'
+            }, status=500)
+    
+    # Render chatbot template
+    return render(request, 'chatbot.html')
 
-        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
-        chat.save()
-        return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html', {'chats': chats})
+def logout(request):
+    """
+    Custom logout view with chat history clearing
+    """
+    # Clear chat history for the current user
+    if request.user.is_authenticated:
+        Chat.objects.filter(user=request.user).delete()
+    
+    # Standard logout process
+    auth_logout(request)
+    
+    # Redirect to login page
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('login')
 
+def login(request):
+    """
+    Custom login view with chat history clearing
+    """
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # Clear previous chat history for the user
+            Chat.objects.filter(user=user).delete()
+            
+            # Log in the user
+            auth_login(request, user)
+            
+            # Redirect to home or desired page
+            messages.success(request, 'You have successfully logged in.')
+            return redirect('home')
+        else:
+            # Return an 'invalid login' error message
+            messages.error(request, 'Invalid username or password.')
+    
+    return render(request, 'login.html')
 
 
 def home(request):

@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class QuizResult(models.Model):
@@ -253,11 +255,19 @@ class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()
     response = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    support_level = models.CharField(
+        max_length=20, 
+        choices=[
+            ('low_risk', 'Low Risk'),
+            ('moderate_risk', 'Moderate Risk'),
+            ('high_risk', 'High Risk')
+        ],
+        default='low_risk'
+    )
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f'{self.user.username}: {self.message}'
-
+        return f"Chat from {self.user.username} at {self.created_at}"
 
 class Profile(models.Model):
     GENDER_CHOICES = [
